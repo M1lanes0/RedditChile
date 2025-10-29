@@ -1,9 +1,11 @@
-$(document).ready(function () {
-  const url = "https://www.reddit.com/r/mod/about/log/.json?feed=38a1201d33c43f6b758c42b899a33bdd93f4836f&user=rchilemodlog&limit=100";
+const api = "https://www.reddit.com/r/mod/about/log/.json?feed=38a1201d33c43f6b758c42b899a33bdd93f4836f&user=rchilemodlog&limit=100";
 
-  fetch(url)
-    .then(response => response.json())
-    .then(json => {
+// Proxy para evitar CORS
+const url = "https://api.allorigins.win/raw?url=" + encodeURIComponent(api);
+
+fetch(url)
+  .then(response => response.json())
+  .then(json => {
       const logs = json.data.children.map(item => {
         const d = item.data;
         return {
@@ -38,8 +40,4 @@ $(document).ready(function () {
         ]
       });
     })
-    .catch(err => {
-      console.error("Error cargando logs:", err);
-      alert("No se pudieron cargar los logs desde Reddit");
-    });
-});
+  .catch(err => console.error("Error cargando logs:", err));
